@@ -11,7 +11,6 @@ st.set_page_config(
     layout="wide"
 )
 
-# ── Global matplotlib style ────────────────────────────────
 mpl.rcParams.update({
     'font.family':        'serif',
     'font.size':          11,
@@ -33,7 +32,6 @@ mpl.rcParams.update({
     'ytick.labelsize':    9,
 })
 
-# ── Custom CSS ─────────────────────────────────────────────
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
@@ -41,13 +39,9 @@ st.markdown("""
 html, body, [class*="css"] {
     font-family: 'DM Sans', sans-serif;
 }
-
-/* Main background */
 .stApp {
     background-color: #f8f7f4;
 }
-
-/* Sidebar */
 section[data-testid="stSidebar"] {
     background-color: #0f1117 !important;
     border-right: 1px solid #1e2130;
@@ -65,48 +59,12 @@ section[data-testid="stSidebar"] h1 {
     font-size: 18px !important;
     letter-spacing: 0.02em;
 }
-
-/* Metric cards */
-[data-testid="metric-container"] {
-    background: #ffffff;
-    border: 1px solid #e8e4dc;
-    border-radius: 8px;
-    padding: 16px 20px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-}
-[data-testid="metric-container"] label {
-    font-family: 'DM Mono', monospace !important;
-    font-size: 10px !important;
-    letter-spacing: 0.08em !important;
-    text-transform: uppercase !important;
-    color: #999 !important;
-}
-[data-testid="metric-container"] [data-testid="stMetricValue"] {
-    font-family: 'Playfair Display', serif !important;
-    font-size: 28px !important;
-    color: #1a1a1a !important;
-    font-weight: 600 !important;
-}
-
-/* Chart containers */
-[data-testid="stPlotlyChart"],
-.element-container .stImage {
-    background: #ffffff;
-    border-radius: 10px;
-    border: 1px solid #e8e4dc;
-    padding: 8px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-}
-
-/* Subheaders */
 h2, h3 {
     font-family: 'Playfair Display', serif !important;
     color: #1a1a1a !important;
     font-weight: 600 !important;
     letter-spacing: -0.01em !important;
 }
-
-/* Expander */
 .streamlit-expanderHeader {
     font-family: 'DM Mono', monospace !important;
     font-size: 11px !important;
@@ -115,7 +73,22 @@ h2, h3 {
     background: #ffffff !important;
     border: 1px solid #e8e4dc !important;
     border-radius: 8px !important;
-    color: #555 !important;
+    color: #555555 !important;
+}
+.streamlit-expanderHeader p,
+.streamlit-expanderHeader span,
+.streamlit-expanderHeader * {
+    color: #555555 !important;
+}
+[data-testid="stExpander"] summary,
+[data-testid="stExpander"] summary * {
+    color: #555555 !important;
+    background: #ffffff !important;
+}
+[data-testid="stExpander"] {
+    border: 1px solid #e8e4dc !important;
+    border-radius: 8px !important;
+    background: #ffffff !important;
 }
 .streamlit-expanderContent {
     background: #ffffff !important;
@@ -123,15 +96,11 @@ h2, h3 {
     border-top: none !important;
     border-radius: 0 0 8px 8px !important;
 }
-
-/* Divider */
 hr {
     border: none !important;
     border-top: 1px solid #e8e4dc !important;
     margin: 24px 0 !important;
 }
-
-/* Info box */
 .stAlert {
     background: #f0f4ff !important;
     border: 1px solid #c8d4f8 !important;
@@ -139,8 +108,6 @@ hr {
     font-family: 'DM Sans', sans-serif !important;
     font-size: 13px !important;
 }
-
-/* Slider */
 .stSlider label {
     font-family: 'DM Mono', monospace !important;
     font-size: 10px !important;
@@ -148,40 +115,47 @@ hr {
     text-transform: uppercase !important;
     color: #999 !important;
 }
-
-/* Caption */
 .stCaption {
     font-family: 'DM Mono', monospace !important;
     font-size: 10px !important;
     color: #aaa !important;
     letter-spacing: 0.04em !important;
 }
-
-/* Spinner */
-.stSpinner > div {
-    border-color: #1a1a1a !important;
-}
-
-/* Multiselect tags */
 .stMultiSelect span[data-baseweb="tag"] {
     background-color: #1a1a1a !important;
     border-radius: 4px !important;
+}
+.stMultiSelect span[data-baseweb="tag"] span {
+    color: #ffffff !important;
 }
 </style>
 """, unsafe_allow_html=True)
 
 DATA_PATH = '/Users/prasannapingale/ecommerce-funnel-analysis/data/2019-Oct.csv'
 
-# ── Color palette ──────────────────────────────────────────
-PRIMARY   = '#1a1a1a'
-ACCENT    = '#2563eb'
-ACCENT2   = '#64a0f7'
-ACCENT3   = '#bcd4fc'
-MUTED     = '#9ca3af'
-DANGER    = '#dc2626'
-SUCCESS   = '#16a34a'
-BG        = '#ffffff'
-GRID      = '#f3f4f6'
+PRIMARY  = '#1a1a1a'
+ACCENT   = '#2563eb'
+ACCENT2  = '#64a0f7'
+ACCENT3  = '#bcd4fc'
+MUTED    = '#9ca3af'
+DANGER   = '#dc2626'
+SUCCESS  = '#16a34a'
+BG       = '#ffffff'
+GRID     = '#f3f4f6'
+
+def kpi_card(col, label, value):
+    col.markdown(
+        f"""<div style="background:#ffffff;border:1px solid #e8e4dc;
+        border-radius:8px;padding:16px 20px;
+        box-shadow:0 1px 3px rgba(0,0,0,0.04);">
+        <div style="font-family:'DM Mono',monospace;font-size:10px;
+        letter-spacing:0.08em;text-transform:uppercase;color:#999999;
+        margin-bottom:6px;">{label}</div>
+        <div style="font-family:'Playfair Display',serif;font-size:28px;
+        font-weight:600;color:#1a1a1a;line-height:1.1;">{value}</div>
+        </div>""",
+        unsafe_allow_html=True
+    )
 
 def chart_style(ax, grid_axis='x'):
     ax.set_facecolor(BG)
@@ -201,6 +175,10 @@ def chart_style(ax, grid_axis='x'):
         ax.set_axisbelow(True)
         ax.yaxis.grid(True, color=GRID, linewidth=0.8)
         ax.xaxis.grid(False)
+    elif grid_axis == 'both':
+        ax.set_axisbelow(True)
+        ax.xaxis.grid(True, color=GRID, linewidth=0.8)
+        ax.yaxis.grid(True, color=GRID, linewidth=0.8)
     else:
         ax.grid(False)
 
@@ -223,8 +201,8 @@ def load_data():
     df['price_bucket'] = pd.cut(
         df['price'],
         bins=[0, 50, 100, 200, 500, 1000, 2000, float('inf')],
-        labels=['$0–50', '$50–100', '$100–200',
-                '$200–500', '$500–1k', '$1k–2k', '$2k+']
+        labels=['$0-50', '$50-100', '$100-200',
+                '$200-500', '$500-1k', '$1k-2k', '$2k+']
     )
     return df
 
@@ -265,7 +243,6 @@ top_n_brands = st.sidebar.slider(
     "Brands to show",
     min_value=5, max_value=15, value=10
 )
-
 st.sidebar.markdown("---")
 st.sidebar.markdown(
     "REES46 Multi-Category Store  \n"
@@ -360,10 +337,10 @@ with st.expander("💡  Key insights — current filter selection", expanded=Tru
 
     with i1:
         if len(cat_insights) > 0:
-            top_cat      = cat_insights['v2p'].idxmax()
-            top_cat_rate = cat_insights['v2p'].max()
-            worst_cat    = cat_insights['v2p'].idxmin()
-            worst_rate   = cat_insights['v2p'].min()
+            top_cat       = cat_insights['v2p'].idxmax()
+            top_cat_rate  = cat_insights['v2p'].max()
+            worst_cat     = cat_insights['v2p'].idxmin()
+            worst_rate    = cat_insights['v2p'].min()
             st.markdown(
                 f"<div style='font-family:DM Mono,monospace;font-size:10px;"
                 f"letter-spacing:.07em;text-transform:uppercase;color:#999'>"
@@ -419,9 +396,8 @@ with st.expander("💡  Key insights — current filter selection", expanded=Tru
                 unsafe_allow_html=True
             )
 
-st.markdown("---")
-
 # ── KPIs ───────────────────────────────────────────────────
+st.markdown("---")
 views     = int((df_f['event_type'] == 'view').sum())
 carts     = int((df_f['event_type'] == 'cart').sum())
 purchases = int((df_f['event_type'] == 'purchase').sum())
@@ -429,11 +405,11 @@ v2p = round(purchases / views * 100, 2) if views > 0 else 0
 v2c = round(carts     / views * 100, 2) if views > 0 else 0
 
 c1, c2, c3, c4, c5 = st.columns(5)
-c1.metric("Total views",     f"{views:,}")
-c2.metric("Total carts",     f"{carts:,}")
-c3.metric("Total purchases", f"{purchases:,}")
-c4.metric("View → cart",     f"{v2c:.2f}%")
-c5.metric("View → purchase", f"{v2p:.2f}%")
+kpi_card(c1, "Total views",     f"{views:,}")
+kpi_card(c2, "Total carts",     f"{carts:,}")
+kpi_card(c3, "Total purchases", f"{purchases:,}")
+kpi_card(c4, "View → cart",     f"{v2c:.2f}%")
+kpi_card(c5, "View → purchase", f"{v2p:.2f}%")
 
 st.markdown("---")
 
@@ -442,20 +418,19 @@ col1, col2 = st.columns([1, 1], gap="large")
 
 with col1:
     st.markdown("### Purchase funnel")
-    fig, ax = plt.subplots(figsize=(6, 4))
+    fig, ax = plt.subplots(figsize=(5, 3))
     chart_style(ax, grid_axis='y')
     stages = ['Views', 'Carts', 'Purchases']
     pct    = [100, v2c, v2p]
     counts = [views, carts, purchases]
     bars = ax.bar(stages, pct,
                   color=[PRIMARY, ACCENT, ACCENT2],
-                  edgecolor='none', width=0.5,
-                  zorder=3)
+                  edgecolor='none', width=0.5, zorder=3)
     for bar, count, p in zip(bars, counts, pct):
         ax.text(bar.get_x() + bar.get_width()/2,
                 bar.get_height() + 1.5,
                 f'{count:,}',
-                ha='center', fontsize=8.5,
+                ha='center', fontsize=9,
                 color='#1a1a1a', fontweight='500',
                 fontfamily='DM Sans')
         ax.text(bar.get_x() + bar.get_width()/2,
@@ -463,8 +438,7 @@ with col1:
                 f'{p:.1f}%',
                 ha='center', va='center',
                 fontsize=10, color='white',
-                fontweight='600',
-                fontfamily='DM Sans')
+                fontweight='600', fontfamily='DM Sans')
     ax.set_ylim(0, 120)
     ax.set_ylabel('')
     ax.yaxis.set_major_formatter(mticker.FormatStrFormatter('%.0f%%'))
@@ -488,19 +462,19 @@ with col2:
     ).round(2)
     cat_f = cat_f[cat_f['views'] > 100].sort_values('v2p')
 
-    fig, ax = plt.subplots(figsize=(6, 4))
+    fig, ax = plt.subplots(figsize=(5, 3))
     chart_style(ax, grid_axis='x')
     colors = [PRIMARY if v == cat_f['v2p'].max()
               else ACCENT3 for v in cat_f['v2p']]
-    bars = ax.barh(cat_f.index, cat_f['v2p'],
-                   color=colors, edgecolor='none',
-                   height=0.6, zorder=3)
+    ax.barh(cat_f.index, cat_f['v2p'],
+            color=colors, edgecolor='none',
+            height=0.6, zorder=3)
     avg = cat_f['v2p'].mean()
     ax.axvline(avg, color=MUTED, linestyle='--',
                linewidth=1, label=f'Avg {avg:.2f}%', zorder=4)
     for i, v in enumerate(cat_f['v2p']):
         ax.text(v + 0.04, i, f'{v}%',
-                va='center', fontsize=8,
+                va='center', fontsize=8.5,
                 color='#6b7280', fontfamily='DM Sans')
     ax.set_xlabel('View-to-purchase %')
     ax.legend(fontsize=8, frameon=False)
@@ -533,23 +507,19 @@ with col3:
         .groupby('brand')['price'].mean().round(0)
     )
 
-    fig, ax = plt.subplots(figsize=(6, 4))
+    fig, ax = plt.subplots(figsize=(5, 3))
     chart_style(ax, grid_axis='both')
     ax.scatter(bf['avg_price'], bf['v2p'],
                s=bf['views'] / 150,
                color=ACCENT, alpha=0.75,
-               edgecolors='white', linewidth=1.5,
-               zorder=5)
+               edgecolors='white', linewidth=1.5, zorder=5)
     for brand, row in bf.iterrows():
         if row['v2p'] > bf['v2p'].quantile(0.5):
-            ax.annotate(
-                brand,
-                (row['avg_price'], row['v2p']),
-                textcoords='offset points',
-                xytext=(8, 4), fontsize=8,
-                color='#374151',
-                fontfamily='DM Sans'
-            )
+            ax.annotate(brand,
+                        (row['avg_price'], row['v2p']),
+                        textcoords='offset points',
+                        xytext=(8, 4), fontsize=8,
+                        color='#374151', fontfamily='DM Sans')
     ax.set_xlabel('Avg price ($)')
     ax.set_ylabel('View-to-purchase %')
     plt.tight_layout(pad=1.5)
@@ -569,7 +539,7 @@ with col4:
             pf[c] = 0
     pf['v2p'] = (pf['purchases'] / pf['views'] * 100).round(2)
 
-    fig, ax = plt.subplots(figsize=(6, 4))
+    fig, ax = plt.subplots(figsize=(5, 3))
     chart_style(ax, grid_axis='y')
     colors = [PRIMARY if v == pf['v2p'].max()
               else ACCENT3 for v in pf['v2p']]
@@ -578,7 +548,7 @@ with col4:
            width=0.6, zorder=3)
     for i, v in enumerate(pf['v2p']):
         ax.text(i, v + 0.05, f'{v}%',
-                ha='center', fontsize=8,
+                ha='center', fontsize=8.5,
                 color='#6b7280', fontfamily='DM Sans')
     ax.set_xlabel('Price range')
     ax.set_ylabel('View-to-purchase %')
@@ -600,14 +570,13 @@ if 'purchase' in conv_hour.columns and 'view' in conv_hour.columns:
     conv_hour['conv_pct'] = (
         conv_hour['purchase'] / conv_hour['view'] * 100
     ).round(2)
-    fig, ax = plt.subplots(figsize=(14, 3))
+    fig, ax = plt.subplots(figsize=(14, 2.5))
     chart_style(ax, grid_axis='y')
     ax.plot(conv_hour.index, conv_hour['conv_pct'],
             marker='o', color=PRIMARY,
             linewidth=2, markersize=5,
             markerfacecolor='white',
-            markeredgewidth=2,
-            zorder=5)
+            markeredgewidth=2, zorder=5)
     ax.fill_between(conv_hour.index, conv_hour['conv_pct'],
                     alpha=0.06, color=PRIMARY)
     ax.set_xlabel('Hour (UTC)')
@@ -644,7 +613,7 @@ cat_ab = (
 )
 
 if len(cat_ab) > 0:
-    fig, ax = plt.subplots(figsize=(14, 5))
+    fig, ax = plt.subplots(figsize=(14, 3.5))
     chart_style(ax, grid_axis='x')
     colors = [DANGER if r > 50 else ACCENT
               for r in cat_ab['abandonment_rate']]
@@ -661,10 +630,10 @@ if len(cat_ab) > 0:
                label=f'Overall avg: {overall_rate:.1f}%', zorder=4)
     for i, v in enumerate(cat_ab['abandonment_rate']):
         ax.text(v + 0.3, i, f'{v}%',
-                va='center', fontsize=8,
+                va='center', fontsize=8.5,
                 color='#6b7280', fontfamily='DM Sans')
     ax.set_xlabel('Abandonment rate %')
-    ax.legend(fontsize=8.5, frameon=False)
+    ax.legend(fontsize=9, frameon=False)
     plt.tight_layout(pad=1.5)
     st.pyplot(fig, use_container_width=True)
     plt.close()
@@ -728,9 +697,8 @@ fig, ax = plt.subplots(figsize=(16, num_cohorts * 0.42 + 1.5))
 ax.set_facecolor(BG)
 fig.set_facecolor(BG)
 
-im = ax.imshow(heat_data.values,
-               cmap='Blues', aspect='auto',
-               vmin=0, vmax=12)
+im = ax.imshow(heat_data.values, cmap='Blues',
+               aspect='auto', vmin=0, vmax=12)
 
 for i in range(heat_data.shape[0]):
     for j in range(heat_data.shape[1]):
@@ -738,19 +706,18 @@ for i in range(heat_data.shape[0]):
         color = 'white' if val > 6 else '#374151'
         ax.text(j, i, f'{val:.1f}%',
                 ha='center', va='center',
-                fontsize=8, color=color,
-                fontweight='600',
-                fontfamily='DM Sans')
+                fontsize=8.5, color=color,
+                fontweight='600', fontfamily='DM Sans')
 
 ax.set_xticks(range(len(heat_data.columns)))
 ax.set_xticklabels(
     [f'Day {d}' for d in heat_data.columns],
-    fontsize=8.5, color='#6b7280'
+    fontsize=9, color='#6b7280'
 )
 ax.set_yticks(range(len(heat_data.index)))
 ax.set_yticklabels(
     [str(d) for d in heat_data.index],
-    fontsize=8.5, color='#6b7280'
+    fontsize=9, color='#6b7280'
 )
 ax.set_xlabel('Days since first purchase',
               fontsize=10, color='#6b7280', labelpad=12)
@@ -761,7 +728,7 @@ for spine in ax.spines.values():
     spine.set_visible(False)
 
 cbar = plt.colorbar(im, ax=ax, shrink=0.5, pad=0.02)
-cbar.set_label('Retention %', fontsize=8.5, color='#6b7280')
+cbar.set_label('Retention %', fontsize=9, color='#6b7280')
 cbar.ax.tick_params(labelsize=8, colors='#6b7280')
 cbar.outline.set_visible(False)
 
@@ -773,7 +740,7 @@ for j, val in enumerate(avg_vals[:len(heat_data.columns)]):
             fontweight='600', fontfamily='DM Sans')
 ax.text(-0.65, len(heat_data) + 0.65, 'Avg',
         ha='center', va='center',
-        fontsize=8, fontweight='700',
+        fontsize=8.5, fontweight='700',
         color=ACCENT, fontfamily='DM Sans')
 
 plt.tight_layout(pad=1.5)
@@ -785,9 +752,9 @@ avg_day7  = retention_pivot[7].mean().round(1)  if 7  in retention_pivot.columns
 avg_day14 = retention_pivot[14].mean().round(1) if 14 in retention_pivot.columns else 0
 
 col_a, col_b, col_c = st.columns(3)
-col_a.metric("Avg day-1 retention",  f"{avg_day1}%")
-col_b.metric("Avg day-7 retention",  f"{avg_day7}%")
-col_c.metric("Avg day-14 retention", f"{avg_day14}%")
+kpi_card(col_a, "Avg day-1 retention",  f"{avg_day1}%")
+kpi_card(col_b, "Avg day-7 retention",  f"{avg_day7}%")
+kpi_card(col_c, "Avg day-14 retention", f"{avg_day14}%")
 
 st.info(
     f"**Key insight:** Day-1 retention averages {avg_day1}% — "
